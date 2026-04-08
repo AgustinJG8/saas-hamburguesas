@@ -56,7 +56,7 @@ export default function Home() {
 
       {/* --- NAVBAR --- */}
       <nav className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 px-6 py-4 flex justify-between items-center">
-        <div className="text-2xl font-black text-red-600 tracking-tighter">POLLO SAAS</div>
+        <div className="text-2xl font-black text-red-600 tracking-tighter">The House of Chicken</div>
         <div className="hidden md:flex gap-8 font-bold text-sm uppercase tracking-widest">
           <a href="#" className="hover:text-red-600 transition">Inicio</a>
           <a href="#menu" className="hover:text-red-600 transition">Menú</a>
@@ -79,14 +79,14 @@ export default function Home() {
           playsInline
           className="absolute z-0 w-auto min-w-full min-h-full max-w-none"
         >
-          <source src="/hero-video.mp4" type="video/mp4" />
+          <source src="/hero-video" type="video/mp4" />
         </video>
         {/* Overlay para que el texto se lea bien */}
         <div className="absolute inset-0 bg-black/40 z-10"></div>
 
         <div className="relative z-20 text-center text-white px-6">
           <h1 className="text-7xl md:text-9xl font-black italic tracking-tighter mb-4 drop-shadow-2xl">
-            YUMMY
+            THC
           </h1>
           <p className="text-xl md:text-2xl font-bold uppercase tracking-[0.3em] mb-8">
             Gigante • Especial • Crujiente
