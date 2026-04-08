@@ -77,9 +77,9 @@ export default function Home() {
           loop
           muted
           playsInline
-          className="absolute z-0 w-auto min-w-full min-h-full max-w-none"
+          className="absolute top-0 left-0 w-full h-full object-cover z-0"
         >
-          <source src="/hero-video" type="video/mp4" />
+          <source src="/burger.mp4" type="video/mp4" />
         </video>
         {/* Overlay para que el texto se lea bien */}
         <div className="absolute inset-0 bg-black/40 z-10"></div>
