@@ -73,6 +73,7 @@ export default function Home() {
                 { key: 'KIDS MENU', title: 'KIDS MENU' },
                 { key: 'ENTRADAS', title: 'ENTRADAS' },
                 { key: 'PAPAS Y MAS', title: 'PAPAS Y MAS' },
+                { key: 'BEBIDAS', title: 'BEBIDAS' },
                 { key: 'POSTRES', title: 'POSTRES' }
               ].map((cat) => (
                 <a
