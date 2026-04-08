@@ -103,6 +103,7 @@ export default function Home() {
             { key: 'KIDS MENU', title: 'KIDS MENU', sub: '' },
             { key: 'ENTRADAS', title: 'ENTRADAS', sub: '' },
             { key: 'PAPAS Y MAS', title: 'PAPAS Y MAS', sub: 'Incluye aderezos y extras' },
+            { key: 'BEBIDAS', title: 'BEBIDAS', sub: 'Refrescos y bebidas preparadas' },
             { key: 'POSTRES', title: 'POSTRES', sub: 'Conos, malteadas y dulces' }
           ].map((section) => {
             const categoryProducts = items.filter(p => p.category?.toUpperCase().trim() === section.key);
