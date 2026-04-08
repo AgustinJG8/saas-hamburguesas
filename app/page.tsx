@@ -90,7 +90,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- SECCIÓN DE MENÚ CON SUBDIVISIONES (Lógica corregida) --- */}
+      {/* --- SECCIÓN DE MENÚ CON SUBDIVISIONES THC --- */}
       <section id="menu" className="py-24 bg-black">
         <div className="container mx-auto px-4">
           {[
@@ -101,11 +101,12 @@ export default function Home() {
             { key: 'PAPAS Y MAS', title: 'PAPAS Y MAS', sub: 'Incluye aderezos y extras' },
             { key: 'POSTRES', title: 'POSTRES', sub: 'Conos, malteadas y paladar dulce THC' }
           ].map((section) => {
-            // Filtramos los productos que coincidan con la categoría
+            // Filtro ultra-seguro: Limpia espacios y convierte a mayúsculas antes de comparar
             const categoryProducts = items.filter(
-              (p: any) => p.category?.toUpperCase() === section.key
+              (p: any) => p.category?.toString().trim().toUpperCase() === section.key
             );
 
+            // Si no hay productos, no mostramos la sección
             if (categoryProducts.length === 0) return null;
 
             return (
@@ -119,8 +120,10 @@ export default function Home() {
                   {categoryProducts.map((p: any) => (
                     <div key={p.id} className="bg-zinc-900 rounded-3xl overflow-hidden border border-zinc-800 p-4 hover:border-red-600 transition-all group">
                       <div className="relative h-52 overflow-hidden rounded-2xl bg-zinc-800">
-                        {p.imagen_url && (
+                        {p.imagen_url ? (
                           <img src={p.imagen_url} alt={p.nombre} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-zinc-700 font-black italic">SIN FOTO</div>
                         )}
                       </div>
                       <div className="mt-5 text-left">
