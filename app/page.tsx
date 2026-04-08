@@ -94,6 +94,24 @@ export default function Home() {
           🛒 <span className="font-bold">{carrito.length}</span>
         </button>
       </nav>
+      {/* --- EL HERO VA AQUÍ (Línea 102 aproximadamente) --- */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+        <video autoPlay loop muted playsInline className="absolute top-0 left-0 w-full h-full object-cover">
+          <source src="/burger.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-black/40 z-10"></div>
+        <div className="relative z-20 text-center text-white px-6">
+          <h1 className="text-7xl md:text-9xl font-black italic tracking-tighter mb-4 drop-shadow-2xl">THC</h1>
+          <p className="text-xl md:text-2xl font-bold uppercase tracking-[0.3em] mb-8">Gigante • Especial • Crujiente</p>
+          <a href="#menu" className="bg-red-600 hover:bg-red-700 text-white px-10 py-4 rounded-full font-black text-xl transition-all shadow-2xl inline-block hover:scale-105">
+            ORDENAR AHORA
+          </a>
+        </div>
+      </section>
+      {/* ----------------------------------------------- */}
+
+      {/* --- ABAJO SIGUE TU SECCIÓN DE MENÚ --- */}
+      <section id="menu" className="py-24 bg-black"></section>
 
       {/* --- SECCIÓN DE MENÚ CON IMÁGENES AJUSTADAS Y ANCLAS --- */}
       <section id="menu" className="py-24 bg-black">
