@@ -101,43 +101,54 @@ export default function Home() {
             { key: 'PAPAS Y MAS', title: 'PAPAS Y MAS', sub: 'Incluye aderezos y extras' },
             { key: 'POSTRES', title: 'POSTRES', sub: 'Conos, malteadas y paladar dulce THC' }
           ].map((section) => {
-            // Filtro ultra-seguro: Limpia espacios y convierte a mayúsculas antes de comparar
+            // Filtro flexible: convierte a mayúsculas, limpia espacios y usa includes()
             const categoryProducts = items.filter(
-              (p: any) => p.category?.toString().trim().toUpperCase() === section.key
+              (p: any) => p.category?.toUpperCase().trim().includes(section.key)
             );
 
-            // Si no hay productos, no mostramos la sección
             if (categoryProducts.length === 0) return null;
 
             return (
               <div key={section.key} className="mb-20">
                 <div className="mb-10 border-l-8 border-red-600 pl-6 text-left">
-                  <h2 className="text-5xl font-black text-white italic tracking-tighter uppercase">{section.title}</h2>
-                  {section.sub && <p className="text-red-500 font-bold uppercase tracking-[0.2em] text-[10px] mt-2">{section.sub}</p>}
+                  <h2 className="text-5xl font-black text-white italic tracking-tighter uppercase leading-none">{section.title}</h2>
+                  {section.sub && <p className="text-red-500 font-bold uppercase tracking-[0.2em] text-[10px] mt-2 leading-none">{section.sub}</p>}
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {categoryProducts.map((p: any) => (
-                    <div key={p.id} className="bg-zinc-900 rounded-3xl overflow-hidden border border-zinc-800 p-4 hover:border-red-600 transition-all group">
-                      <div className="relative h-52 overflow-hidden rounded-2xl bg-zinc-800">
+                    <div key={p.id} className="bg-zinc-900 rounded-3xl overflow-hidden border border-zinc-800 p-4 hover:border-red-600 transition-all group flex flex-col">
+
+                      {/* --- CONTENEDOR DE IMAGEN CORREGIDO (Líneas 33-43) --- */}
+                      <div className="relative h-60 w-full overflow-hidden rounded-2xl bg-black/50 p-2 flex items-center justify-center">
                         {p.imagen_url ? (
-                          <img src={p.imagen_url} alt={p.nombre} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                          <img
+                            src={p.imagen_url}
+                            alt={p.nombre}
+                            // USAMOS OBJECT-CONTAIN PARA QUE LA FOTO QUEPA PERFECTA SIN CORTARSE
+                            className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-500"
+                          />
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center text-zinc-700 font-black italic">SIN FOTO</div>
+                          <div className="text-zinc-700 font-black italic text-sm">SIN FOTO THC</div>
                         )}
                       </div>
-                      <div className="mt-5 text-left">
+                      {/* ---------------------------------------------------- */}
+
+                      <div className="mt-5 text-left flex-grow">
                         <h3 className="text-white font-black italic uppercase text-xl leading-tight">{p.nombre}</h3>
-                        <p className="text-zinc-500 text-sm mt-2 line-clamp-2">{p.descripcion}</p>
-                        <div className="flex justify-between items-center mt-6">
-                          <span className="text-red-600 font-black text-2xl">${p.precio}</span>
-                          <button
-                            onClick={() => alCarrito(p)}
-                            className="bg-white text-black text-[11px] font-black px-5 py-2.5 rounded-xl uppercase italic hover:bg-red-600 hover:text-white transition-colors"
-                          >
-                            Añadir
-                          </button>
-                        </div>
+                        <p className="text-zinc-500 text-sm mt-2 line-clamp-3 font-medium">{p.descripcion}</p>
+                      </div>
+
+                      <div className="flex justify-between items-center mt-6 pt-4 border-t border-zinc-800">
+                        <span className="text-red-600 font-black text-3xl">
+                          {p.precio ? `$${p.precio}` : '---'}
+                        </span>
+                        <button
+                          onClick={() => alCarrito(p)}
+                          className="bg-white text-black text-[11px] font-black px-6 py-3 rounded-xl uppercase italic hover:bg-red-600 hover:text-white transition-colors"
+                        >
+                          Añadir
+                        </button>
                       </div>
                     </div>
                   ))}
@@ -147,7 +158,6 @@ export default function Home() {
           })}
         </div>
       </section>
-
       {/* --- CARRITO LATERAL (Tu diseño original) --- */}
       {isCartOpen && (
         <div className="fixed inset-0 z-[100] flex justify-end">
