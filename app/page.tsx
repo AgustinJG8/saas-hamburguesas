@@ -53,44 +53,48 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-white font-sans text-gray-900">
 
-      {/* --- NAVBAR (Tu diseño original) --- */}
-      <nav className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 px-6 py-4 flex justify-between items-center">
+      {/* --- NAVBAR CON SUBDIVISIONES DESPLEGABLES --- */}
+      <nav className="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 px-6 py-4 flex justify-between items-center font-sans">
         <div className="text-2xl font-black text-red-600 tracking-tighter">The House of Chicken</div>
-        <div className="hidden md:flex gap-8 font-bold text-sm uppercase tracking-widest">
+
+        <div className="hidden md:flex gap-8 font-bold text-sm uppercase tracking-widest items-center">
           <a href="#" className="hover:text-red-600 transition">Inicio</a>
-          <a href="#menu" className="hover:text-red-600 transition">Menú</a>
+
+          {/* Menú con Dropdown */}
+          <div className="relative group py-2">
+            <button className="hover:text-red-600 transition flex items-center gap-1 font-bold uppercase tracking-widest">
+              Menú <span className="text-[10px]">▼</span>
+            </button>
+            {/* El Submenú que se despliega al pasar el mouse */}
+            <div className="absolute left-0 top-full hidden group-hover:block bg-white border border-gray-100 shadow-xl rounded-xl min-w-[220px] overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+              {[
+                { key: 'HAMBURGUESAS THC', title: 'HAMBURGUESAS THC' },
+                { key: 'THC ESPECIALES', title: 'THC ESPECIALES' },
+                { key: 'KIDS MENU', title: 'KIDS MENU' },
+                { key: 'ENTRADAS', title: 'ENTRADAS' },
+                { key: 'PAPAS Y MAS', title: 'PAPAS Y MAS' },
+                { key: 'POSTRES', title: 'POSTRES' }
+              ].map((cat) => (
+                <a
+                  key={cat.key}
+                  href={`#${cat.key.replace(/\s+/g, '-')}`}
+                  className="block px-6 py-3 text-[11px] font-bold text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors border-b border-gray-50 last:border-0"
+                >
+                  {cat.title}
+                </a>
+              ))}
+            </div>
+          </div>
+
           <a href="#" className="hover:text-red-600 transition">Referencias</a>
         </div>
-        <button
-          onClick={() => setIsCartOpen(!isCartOpen)}
-          className="relative bg-black text-white p-2 rounded-full px-4 flex items-center gap-2"
-        >
+
+        <button onClick={() => setIsCartOpen(!isCartOpen)} className="bg-black text-white p-2 rounded-full px-4 flex items-center gap-2">
           🛒 <span className="font-bold">{carrito.length}</span>
         </button>
       </nav>
 
-      {/* --- HERO SECTION CON VIDEO (Tu diseño original) --- */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute top-0 left-0 w-full h-full object-cover"
-        >
-          <source src="/burger.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-black/40 z-10"></div>
-        <div className="relative z-20 text-center text-white px-6">
-          <h1 className="text-7xl md:text-9xl font-black italic tracking-tighter mb-4 drop-shadow-2xl">THC</h1>
-          <p className="text-xl md:text-2xl font-bold uppercase tracking-[0.3em] mb-8">Gigante • Especial • Crujiente</p>
-          <a href="#menu" className="bg-red-600 hover:bg-red-700 text-white px-10 py-4 rounded-full font-black text-xl transition-all shadow-2xl inline-block">
-            ORDENAR AHORA
-          </a>
-        </div>
-      </section>
-
-      {/* --- SECCIÓN DE MENÚ CON SUBDIVISIONES THC --- */}
+      {/* --- SECCIÓN DE MENÚ CON IMÁGENES AJUSTADAS Y ANCLAS --- */}
       <section id="menu" className="py-24 bg-black">
         <div className="container mx-auto px-4">
           {[
@@ -99,19 +103,15 @@ export default function Home() {
             { key: 'KIDS MENU', title: 'KIDS MENU', sub: '' },
             { key: 'ENTRADAS', title: 'ENTRADAS', sub: '' },
             { key: 'PAPAS Y MAS', title: 'PAPAS Y MAS', sub: 'Incluye aderezos y extras' },
-            { key: 'POSTRES', title: 'POSTRES', sub: 'Conos, malteadas y paladar dulce THC' }
+            { key: 'POSTRES', title: 'POSTRES', sub: 'Conos, malteadas y dulces' }
           ].map((section) => {
-            // Filtro flexible: convierte a mayúsculas, limpia espacios y usa includes()
-            const categoryProducts = items.filter(
-              (p: any) => p.category?.toUpperCase().trim().includes(section.key)
-            );
-
+            const categoryProducts = items.filter(p => p.category?.toUpperCase().trim() === section.key);
             if (categoryProducts.length === 0) return null;
 
             return (
-              <div key={section.key} className="mb-20">
+              <div key={section.key} id={section.key.replace(/\s+/g, '-')} className="mb-20 scroll-mt-24">
                 <div className="mb-10 border-l-8 border-red-600 pl-6 text-left">
-                  <h2 className="text-5xl font-black text-white italic tracking-tighter uppercase leading-none">{section.title}</h2>
+                  <h2 className="text-5xl font-black text-white italic uppercase tracking-tighter leading-none">{section.title}</h2>
                   {section.sub && <p className="text-red-500 font-bold uppercase tracking-[0.2em] text-[10px] mt-2 leading-none">{section.sub}</p>}
                 </div>
 
@@ -119,29 +119,27 @@ export default function Home() {
                   {categoryProducts.map((p: any) => (
                     <div key={p.id} className="bg-zinc-900 rounded-3xl overflow-hidden border border-zinc-800 p-4 hover:border-red-600 transition-all group flex flex-col">
 
-                      {/* --- CONTENEDOR DE IMAGEN CORREGIDO (Líneas 33-43) --- */}
-                      <div className="relative h-60 w-full overflow-hidden rounded-2xl bg-black/50 p-2 flex items-center justify-center">
+                      {/* IMAGEN: Ahora usa object-cover para no dejar espacios libres */}
+                      <div className="relative h-64 w-full overflow-hidden rounded-2xl bg-zinc-800">
                         {p.imagen_url ? (
                           <img
                             src={p.imagen_url}
                             alt={p.nombre}
-                            // USAMOS OBJECT-CONTAIN PARA QUE LA FOTO QUEPA PERFECTA SIN CORTARSE
-                            className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-500"
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                           />
                         ) : (
-                          <div className="text-zinc-700 font-black italic text-sm">SIN FOTO THC</div>
+                          <div className="w-full h-full flex items-center justify-center text-zinc-700 font-black italic">THC</div>
                         )}
                       </div>
-                      {/* ---------------------------------------------------- */}
 
                       <div className="mt-5 text-left flex-grow">
                         <h3 className="text-white font-black italic uppercase text-xl leading-tight">{p.nombre}</h3>
-                        <p className="text-zinc-500 text-sm mt-2 line-clamp-3 font-medium">{p.descripcion}</p>
+                        <p className="text-zinc-500 text-sm mt-2 line-clamp-2 font-medium">{p.descripcion}</p>
                       </div>
 
-                      <div className="flex justify-between items-center mt-6 pt-4 border-t border-zinc-800">
+                      <div className="flex justify-between items-center mt-6 pt-4">
                         <span className="text-red-600 font-black text-3xl">
-                          {p.precio ? `$${p.precio}` : '---'}
+                          ${p.precio}
                         </span>
                         <button
                           onClick={() => alCarrito(p)}
