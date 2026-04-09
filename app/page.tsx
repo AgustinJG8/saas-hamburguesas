@@ -23,9 +23,13 @@ export default function Home() {
     setCarrito([...carrito, producto]);
     setIsCartOpen(true);
   };
+  const eliminarDelCarrito = (index: number) => {
+    const nuevoCarrito = carrito.filter((_, i) => i !== index);
+    setCarrito(nuevoCarrito);
+  };
 
   // Función para pagar con Stripe (Diseño original)
-  const pagarTodo = async () => {
+  async function pagarTodo() {
     if (carrito.length === 0) return;
     const total = carrito.reduce((sum, item) => sum + item.precio, 0);
 
@@ -48,7 +52,7 @@ export default function Home() {
       console.error(error);
       alert("Error al procesar el pago");
     }
-  };
+  }
 
   return (
     <main className="min-h-screen bg-white font-sans text-gray-900">
@@ -187,11 +191,19 @@ export default function Home() {
             </div>
             <div className="flex-grow overflow-y-auto">
               {carrito.map((item, index) => (
-                <div key={index} className="flex justify-between items-center mb-4 border-b pb-4 text-left">
+                <div key={index} className="relative flex justify-between items-center mb-4 border-b pb-4 text-left pr-10">
                   <div>
-                    <p className="font-bold uppercase text-gray-900">{item.nombre}</p>
+                    <p className="font-bold uppercase text-gray-900 text-sm">{item.nombre}</p>
                     <p className="text-red-600 font-black">${item.precio}</p>
                   </div>
+
+                  {/* Este es el botón que llama a la función que acabamos de pegar arriba */}
+                  <button
+                    onClick={() => eliminarDelCarrito(index)}
+                    className="absolute right-0 text-gray-400 hover:text-red-600 font-bold"
+                  >
+                    ✕
+                  </button>
                 </div>
               ))}
               {carrito.length === 0 && <p className="text-gray-400 italic">El carrito está vacío...</p>}
