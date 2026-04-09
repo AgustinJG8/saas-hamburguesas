@@ -28,31 +28,39 @@ export default function Home() {
     setCarrito(nuevoCarrito);
   };
 
-  // Función para pagar con Stripe (Diseño original)
-  async function pagarTodo() {
+  const pagarTodo = async () => {
     if (carrito.length === 0) return;
+
     const total = carrito.reduce((sum, item) => sum + item.precio, 0);
+    const nombrePedido = "Pedido The House of Chicken";
 
     try {
       const respuesta = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          nombre: `Pedido Pollo SaaS (${carrito.length} items)`,
+          nombre: nombrePedido,
           precio: total
         }),
       });
 
-      const { sessionId } = await respuesta.json();
+      const data = await respuesta.json();
+
+      if (data.error) {
+        throw new Error(data.error);
+      }
+
+      const { sessionId } = data;
       const { loadStripe } = await import("@stripe/stripe-js");
       const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+
       await (stripe as any)?.redirectToCheckout({ sessionId });
 
     } catch (error) {
-      console.error(error);
-      alert("Error al procesar el pago");
+      console.error("Detalle del error:", error);
+      alert("Hubo un problema con Stripe. Revisa la consola de Vercel.");
     }
-  }
+  };
 
   return (
     <main className="min-h-screen bg-white font-sans text-gray-900">
