@@ -18,6 +18,7 @@ export default function Home() {
   const [items, setItems] = useState<Product[]>([]);
   const [carrito, setCarrito] = useState<Product[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isPagarLoading, setIsPagarLoading] = useState(false);
 
   useEffect(() => {
     const obtenerMenu = async () => {
@@ -39,19 +40,16 @@ export default function Home() {
   };
 
   const pagarTodo = async () => {
-    if (carrito.length === 0) return;
+    if (carrito.length === 0 || isPagarLoading) return;
+    setIsPagarLoading(true);
 
-    const total = carrito.reduce((sum, item) => sum + item.precio, 0);
-    const nombrePedido = "Pedido The House of Chicken";
+    const productIds = carrito.map(item => item.id);
 
     try {
       const respuesta = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          nombre: nombrePedido,
-          precio: total
-        }),
+        body: JSON.stringify({ productIds }),
       });
 
       const data = await respuesta.json();
@@ -60,16 +58,14 @@ export default function Home() {
         throw new Error(data.error);
       }
 
-      const { sessionId } = data;
-      const { loadStripe } = await import("@stripe/stripe-js");
-      const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      await (stripe as any)?.redirectToCheckout({ sessionId });
+      if (data.url) {
+        window.location.href = data.url;
+      }
 
     } catch (error) {
       console.error("Detalle del error:", error);
-      alert("Hubo un problema con Stripe. Revisa la consola de Vercel.");
+      alert("Hubo un problema al procesar el pago. Revisa la consola.");
+      setIsPagarLoading(false);
     }
   };
 
@@ -169,7 +165,7 @@ export default function Home() {
                             src={p.imagen_url}
                             alt={p.nombre}
                             fill
-                            unoptimized
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             className="object-cover group-hover:scale-110 transition-transform duration-500"
                           />
                         ) : (
@@ -236,9 +232,10 @@ export default function Home() {
               </div>
               <button
                 onClick={pagarTodo}
-                className="w-full bg-red-600 text-white py-6 rounded-2xl font-black text-xl shadow-xl hover:bg-red-700 transition-all"
+                disabled={isPagarLoading}
+                className={`w-full text-white py-6 rounded-2xl font-black text-xl shadow-xl transition-all ${isPagarLoading ? 'bg-zinc-500 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700'}`}
               >
-                PAGAR Y PEDIR 🍗
+                {isPagarLoading ? 'PROCESANDO...' : 'PAGAR Y PEDIR 🍗'}
               </button>
             </div>
           </div>
