@@ -1,12 +1,22 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { supabase } from "./lib/supabase";
+
+export interface Product {
+  id: string | number;
+  nombre: string;
+  descripcion?: string;
+  precio: number;
+  imagen_url?: string;
+  category?: string;
+}
 
 export default function Home() {
   // Cambiamos el nombre a 'items' para que el Menú lo reconozca
-  const [items, setItems] = useState<any[]>([]);
-  const [carrito, setCarrito] = useState<any[]>([]);
+  const [items, setItems] = useState<Product[]>([]);
+  const [carrito, setCarrito] = useState<Product[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   useEffect(() => {
@@ -19,7 +29,7 @@ export default function Home() {
   }, []);
 
   // Función para añadir al carrito (Diseño original)
-  const alCarrito = (producto: any) => {
+  const alCarrito = (producto: Product) => {
     setCarrito([...carrito, producto]);
     setIsCartOpen(true);
   };
@@ -54,6 +64,7 @@ export default function Home() {
       const { loadStripe } = await import("@stripe/stripe-js");
       const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       await (stripe as any)?.redirectToCheckout({ sessionId });
 
     } catch (error) {
@@ -148,16 +159,18 @@ export default function Home() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {categoryProducts.map((p: any) => (
+                  {categoryProducts.map((p: Product) => (
                     <div key={p.id} className="bg-zinc-900 rounded-3xl overflow-hidden border border-zinc-800 p-4 hover:border-red-600 transition-all group flex flex-col">
 
                       {/* IMAGEN: Ahora usa object-cover para no dejar espacios libres */}
                       <div className="relative h-64 w-full overflow-hidden rounded-2xl bg-zinc-800">
                         {p.imagen_url ? (
-                          <img
+                          <Image
                             src={p.imagen_url}
                             alt={p.nombre}
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                            fill
+                            unoptimized
+                            className="object-cover group-hover:scale-110 transition-transform duration-500"
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-zinc-700 font-black italic">THC</div>

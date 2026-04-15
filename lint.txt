@@ -1,0 +1,22 @@
+﻿
+> saas-hamburguesas@0.1.0 lint
+> eslint
+
+
+C:\Users\PC\OneDrive\Desktop\THC WEB\saas-hamburguesas\app\api\checkout\route.ts
+   2:16  error  A `require()` style import is forbidden   @typescript-eslint/no-require-imports
+  26:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\PC\OneDrive\Desktop\THC WEB\saas-hamburguesas\app\page.tsx
+    8:38  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+    9:42  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   22:32  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   57:24  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  151:45  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  157:27  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\PC\OneDrive\Desktop\THC WEB\saas-hamburguesas\app\success\page.tsx
+  6:13  error  Do not use an `<a>` element to navigate to `/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages  @next/next/no-html-link-for-pages
+
+Ô£û 9 problems (8 errors, 1 warning)
+

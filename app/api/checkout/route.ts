@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+import Stripe from "stripe";
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
 export async function POST(req: Request) {
     try {
@@ -23,7 +24,8 @@ export async function POST(req: Request) {
         });
 
         return NextResponse.json({ sessionId: session.id });
-    } catch (err: any) {
-        return NextResponse.json({ error: err.message }, { status: 500 });
+    } catch (err: unknown) {
+        const errorMessage = err instanceof Error ? err.message : String(err);
+        return NextResponse.json({ error: errorMessage }, { status: 500 });
     }
 }
