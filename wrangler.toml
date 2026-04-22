@@ -1,9 +1,0 @@
-name = "saas-hamburguesas-v2"
-main = ".open-next/worker.js"
-compatibility_date = "2024-09-23"
-compatibility_flags = ["nodejs_compat"]
-# Esta es la línea que nos faltaba para Pages:
-pages_build_output_dir = ".open-next"
-
-[vars]
-# Aquí van variables si las necesitas
