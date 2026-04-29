@@ -1,2 +1,7 @@
 name = "saas-hamburguesas"
 compatibility_date = "2024-04-22"
+
+[vars]
+NEXT_PUBLIC_SUPABASE_URL = "https://azaexskhbjkrbdsvjewr.supabase.co"
+NEXT_PUBLIC_SUPABASE_ANON_KEY = "sb_publishable_4lrCc4IzD98X05JjGwOgKg_Rg4_nbPs"
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY = "pk_test_51TJzZjQbzAcglnCNJqXKDiGhySz1Ttm6pcGlBqb6H0rTXh6GW30rxtzqW1B45zxwb4KF8XsLnk2YA5pBJmvyEKFx00oXgyRQiq"
