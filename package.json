@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npx @cloudflare/next-on-pages",
-    "preview": "npm run build && wrangler pages dev .vercel/output/static",
-    "deploy": "npm run build && wrangler pages deploy .vercel/output/static",
+    "build": "next build",
+    "preview": "npx @cloudflare/next-on-pages && wrangler pages dev .vercel/output/static",
+    "deploy": "npx @cloudflare/next-on-pages && wrangler pages deploy .vercel/output/static",
     "lint": "eslint"
   },
   "dependencies": {
