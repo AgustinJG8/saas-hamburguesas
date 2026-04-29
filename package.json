@@ -4,13 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "preview": "npm run build && wrangler dev",
-    "deploy": "npm run build && wrangler deploy",
+    "build": "npx @cloudflare/next-on-pages",
+    "preview": "npm run build && wrangler pages dev .vercel/output/static",
+    "deploy": "npm run build && wrangler pages deploy .vercel/output/static",
     "lint": "eslint"
   },
   "dependencies": {
-    "@opennextjs/cloudflare": "^1.19.2",
+    "@cloudflare/next-on-pages": "^1.13.5",
     "@stripe/stripe-js": "^9.1.0",
     "@supabase/supabase-js": "^2.102.1",
     "next": "^16.2.3",
